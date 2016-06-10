@@ -1,5 +1,5 @@
 ﻿{
-	output: "Bridge/Output/Scripts",
-	outputBy: "Project",
+	"output": "Bridge/Output/Scripts",
+	"outputBy": "Project",
 	"combineScripts":  true
 }
