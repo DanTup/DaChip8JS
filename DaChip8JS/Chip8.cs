@@ -378,7 +378,7 @@ namespace DanTup.DaChip8JS
 		/// </summary>
 		void SetIForChar(OpCodeData data)
 		{
-			Debug.WriteLine($"Setting I to {(ushort)(V[data.X] * 5)} to render a {V[data.X].ToString("X")}");
+			Debug.WriteLine(string.Format("Setting I to {0} to render a {1}", V[data.X] * 5, V[data.X].ToString("X")));
 			I = (ushort)(V[data.X] * 5); // 0 is at 0x0, 1 is at 0x5, ...
 		}
 
