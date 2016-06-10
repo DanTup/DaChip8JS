@@ -150,8 +150,15 @@ namespace DanTup.DaChip8JS
 				opCodesMisc[data.NN](data);
 		}
 
-		public void KeyDown(byte key) => pressedKeys.Add(key);
-		public void KeyUp(byte key) => pressedKeys.Remove(key);
+		public void KeyDown(byte key)
+		{
+			pressedKeys.Add(key);
+		}
+
+		public void KeyUp(byte key)
+		{
+			pressedKeys.Remove(key);
+		}
 
 		// http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#3.1
 
