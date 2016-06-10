@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using Bridge.Html5;
 
 namespace DanTup.DaChip8JS
@@ -8,19 +6,16 @@ namespace DanTup.DaChip8JS
 	public static class Main
 	{
 		static Chip8 chip8;
-		const string ROM = "../../../ROMs/Chip-8 Pack/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].ch8";
+		const string ROM = "ROMs/Chip-8 Pack/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].ch8";
 
-		// For timing..
-		static readonly Stopwatch stopWatch = Stopwatch.StartNew();
 		static readonly int targetElapsedTime60Hz = (int)(1000f / 60); // 60 tickets per second
 		static readonly int targetElapsedTime = (int)(1000f / 500); // 500 ticks per second
-		static TimeSpan lastTime;
 
 		[Ready]
 		public static void OnReady()
 		{
 			chip8 = new Chip8(Draw, Beep);
-			//chip8.LoadProgram(File.ReadAllBytes(ROM));
+			chip8.LoadProgram(GetRom(ROM));
 
 			Document.OnKeyUp += SetKeyDown;
 			Document.OnKeyDown += SetKeyUp;
@@ -28,11 +23,16 @@ namespace DanTup.DaChip8JS
 			StartGameLoop();
 		}
 
-		public static void Draw(bool[,] buffer)
+		static byte[] GetRom(string rom)
+		{
+			return null;
+		}
+
+		static void Draw(bool[,] buffer)
 		{
 		}
 
-		public static void Beep(int milliseconds)
+		static void Beep(int milliseconds)
 		{
 		}
 
