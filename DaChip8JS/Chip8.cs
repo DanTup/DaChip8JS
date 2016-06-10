@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 
 namespace DanTup.DaChip8JS
 {
 	class Chip8
 	{
-		Bitmap screen; // 64x32
-		bool[,] buffer;
+		const int ScreenWidth = 64, ScreenHeight = 32;
+
+		Action<bool[,]> draw;
+		Action<int> beep;
+		bool[,] buffer = new bool[ScreenWidth, ScreenHeight];
 
 		// Registers
 		byte[] V = new byte[16];
@@ -33,10 +35,10 @@ namespace DanTup.DaChip8JS
 		// Keys that are currently pressed.
 		HashSet<byte> pressedKeys = new HashSet<byte>();
 
-		public Chip8(Bitmap screen)
+		public Chip8(Action<bool[,]> draw, Action<int> beep)
 		{
-			this.screen = screen;
-			this.buffer = new bool[screen.Width, screen.Height];
+			this.draw = draw;
+			this.beep = beep;
 
 			WriteFont();
 
@@ -138,14 +140,7 @@ namespace DanTup.DaChip8JS
 			if (Delay > 0)
 				Delay--;
 
-			UpdateScreen();
-		}
-
-		void UpdateScreen()
-		{
-			for (var x = 0; x < screen.Width; x++)
-				for (var y = 0; y < screen.Height; y++)
-					screen.SetPixel(x, y, buffer[x, y] ? Color.DarkGreen : Color.Black);
+			draw(buffer);
 		}
 
 		// Misc has its own dictionary because it's full of random stuff.
@@ -167,8 +162,8 @@ namespace DanTup.DaChip8JS
 		{
 			if (data.NN == 0xE0)
 			{
-				for (var x = 0; x < screen.Width; x++)
-					for (var y = 0; y < screen.Height; y++)
+				for (var x = 0; x < ScreenWidth; x++)
+					for (var y = 0; y < ScreenHeight; y++)
 						buffer[x, y] = false;
 			}
 			else if (data.NN == 0xEE)
@@ -314,8 +309,8 @@ namespace DanTup.DaChip8JS
 
 				for (var bit = 0; bit < 8; bit++)
 				{
-					var x = (startX + bit) % screen.Width;
-					var y = (startY + i) % screen.Height;
+					var x = (startX + bit) % ScreenWidth;
+					var y = (startY + i) % ScreenHeight;
 
 					var spriteBit = ((spriteLine >> (7 - bit)) & 1);
 					var oldBit = buffer[x, y] ? 1 : 0;
@@ -370,7 +365,7 @@ namespace DanTup.DaChip8JS
 		/// <summary>
 		/// Play sound for V[x] 60ths of a second.
 		/// </summary>
-		void SetSound(OpCodeData data) => Console.Beep(500, (int)(V[data.X] * (1000f / 60)));
+		void SetSound(OpCodeData data) => beep((int)(V[data.X] * (1000f / 60)));
 
 		/// <summary>
 		/// Adds V[x] to register I.
