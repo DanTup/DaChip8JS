@@ -1,4 +1,4 @@
-﻿namespace DanTup.DaChip8
+﻿namespace DanTup.DaChip8JS
 {
 	static class Font
 	{

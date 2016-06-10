@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 
-namespace DanTup.DaChip8
+namespace DanTup.DaChip8JS
 {
 	class Chip8
 	{

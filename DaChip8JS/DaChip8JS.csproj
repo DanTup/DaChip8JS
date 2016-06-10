@@ -7,8 +7,8 @@
     <ProjectGuid>{448631F1-A61C-4724-A6AF-ACF12E654E73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DanTup.DaChip8</RootNamespace>
-    <AssemblyName>DaChip8</AssemblyName>
+    <RootNamespace>DanTup.DaChip8JS</RootNamespace>
+    <AssemblyName>DaChip8JS</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
