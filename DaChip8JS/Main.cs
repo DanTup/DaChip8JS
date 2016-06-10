@@ -15,17 +15,26 @@ namespace DanTup.DaChip8JS
 		public static void OnReady()
 		{
 			chip8 = new Chip8(Draw, Beep);
-			chip8.LoadProgram(GetRom(ROM));
+
+			BeginLoadRom(ROM);
 
 			Document.OnKeyUp += SetKeyDown;
 			Document.OnKeyDown += SetKeyUp;
-
-			StartGameLoop();
 		}
 
-		static byte[] GetRom(string rom)
+		static void BeginLoadRom(string rom)
 		{
-			return null;
+			var req = new XMLHttpRequest();
+			req.Open("GET", rom);
+			req.OnLoad = e => EndLoadRom(req.Response);
+			req.Send();
+		}
+
+		static void EndLoadRom(object o)
+		{
+			//chip8.LoadProgram(data);
+
+			//StartGameLoop();
 		}
 
 		static void Draw(bool[,] buffer)
