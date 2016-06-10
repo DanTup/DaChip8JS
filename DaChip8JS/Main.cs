@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Bridge.Html5;
 
 namespace DanTup.DaChip8JS
@@ -13,8 +12,8 @@ namespace DanTup.DaChip8JS
 
 		// For timing..
 		static readonly Stopwatch stopWatch = Stopwatch.StartNew();
-		static readonly TimeSpan targetElapsedTime60Hz = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60);
-		static readonly TimeSpan targetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 1000);
+		static readonly int targetElapsedTime60Hz = (int)(1000f / 60); // 60 tickets per second
+		static readonly int targetElapsedTime = (int)(1000f / 500); // 500 ticks per second
 		static TimeSpan lastTime;
 
 		[Ready]
@@ -71,34 +70,8 @@ namespace DanTup.DaChip8JS
 
 		static void StartGameLoop()
 		{
-			Task.Run(GameLoop);
-		}
-
-		static Task GameLoop()
-		{
-			while (true)
-			{
-				var currentTime = stopWatch.Elapsed;
-				var elapsedTime = currentTime - lastTime;
-
-				while (elapsedTime >= targetElapsedTime60Hz)
-				{
-					this.Invoke((Action)Tick60Hz);
-					elapsedTime -= targetElapsedTime60Hz;
-					lastTime += targetElapsedTime60Hz;
-				}
-
-				this.Invoke((Action)Tick);
-
-				Thread.Sleep(targetElapsedTime);
-			}
-		}
-
-		static void Tick() => chip8.Tick();
-		static void Tick60Hz()
-		{
-			chip8.Tick60Hz();
-			pbScreen.Refresh();
+			Window.SetInterval(chip8.Tick, targetElapsedTime);
+			Window.SetInterval(chip8.Tick60Hz, targetElapsedTime60Hz);
 		}
 	}
 }
