@@ -1,6 +1,10 @@
-﻿namespace DanTup.DaChip8JS
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+
+namespace DanTup.DaChip8JS
 {
-#if NOTHING
 	public class Main
 	{
 		readonly Chip8 chip8;
@@ -94,5 +98,4 @@
 			pbScreen.Refresh();
 		}
 	}
-#endif
 }
