@@ -173,12 +173,18 @@ namespace DanTup.DaChip8JS
 		/// <summary>
 		/// Jumps to location nnn (not a subroutine, so old PC is not pushed to the stack).
 		/// </summary>
-		void Jump(OpCodeData data) => PC = data.NNN;
+		void Jump(OpCodeData data)
+		{
+			PC = data.NNN;
+		}
 
 		/// <summary>
 		/// Jumps to location nnn + v[0] (not a subroutine, so old PC is not pushed to the stack).
 		/// </summary>
-		void JumpWithOffset(OpCodeData data) => PC = (ushort)(data.NNN + V[0]);
+		void JumpWithOffset(OpCodeData data)
+		{
+			PC = (ushort)(data.NNN + V[0]);
+		}
 
 		/// <summary>
 		/// Jumps to subroutine nnn (unlike Jump, this pushes the previous PC to the stack to allow return).
@@ -286,12 +292,18 @@ namespace DanTup.DaChip8JS
 		/// <summary>
 		/// Sets the I register.
 		/// </summary>
-		void SetI(OpCodeData data) => I = data.NNN;
+		void SetI(OpCodeData data)
+		{
+			I = data.NNN;
+		}
 
 		/// <summary>
 		/// ANDs a random number with nn and stores in V[x].
 		/// </summary>
-		void Rnd(OpCodeData data) => V[data.X] = (byte)(rnd.Next(0, 256) & data.NN);
+		void Rnd(OpCodeData data)
+		{
+			V[data.X] = (byte)(rnd.Next(0, 256) & data.NN);
+		}
 
 		/// <summary>
 		/// Draws an n-byte sprite from register I at V[x], V[y]. Sets V[0xF] if it collides.
@@ -355,22 +367,34 @@ namespace DanTup.DaChip8JS
 		/// <summary>
 		/// Sets V[x] to equal the Delay register.
 		/// </summary>
-		void SetXToDelay(OpCodeData data) => V[data.X] = Delay;
+		void SetXToDelay(OpCodeData data)
+		{
+			V[data.X] = Delay;
+		}
 
 		/// <summary>
 		/// Sets the delay register to V[x].
 		/// </summary>
-		void SetDelay(OpCodeData data) => Delay = V[data.X];
+		void SetDelay(OpCodeData data)
+		{
+			Delay = V[data.X];
+		}
 
 		/// <summary>
 		/// Play sound for V[x] 60ths of a second.
 		/// </summary>
-		void SetSound(OpCodeData data) => beep((int)(V[data.X] * (1000f / 60)));
+		void SetSound(OpCodeData data)
+		{
+			beep((int)(V[data.X] * (1000f / 60)));
+		}
 
 		/// <summary>
 		/// Adds V[x] to register I.
 		/// </summary>
-		void AddXToI(OpCodeData data) => I += V[data.X];
+		void AddXToI(OpCodeData data)
+		{
+			I += V[data.X];
+		}
 
 		/// <summary>
 		/// Sets I to the correct location of the font sprite V[x].
@@ -414,11 +438,17 @@ namespace DanTup.DaChip8JS
 		/// <summary>
 		/// Pushes a 16-bit value onto the stack, incrementing the SP.
 		/// </summary>
-		void Push(ushort value) => Stack[SP++] = value;
+		void Push(ushort value)
+		{
+			Stack[SP++] = value;
+		}
 
 		/// <summary>
 		/// Retrieves a 16-bit value from the stack, decrementing the SP.
 		/// </summary>
-		ushort Pop() => Stack[--SP];
+		ushort Pop()
+		{
+			return Stack[--SP];
+		}
 	}
 }
