@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace DanTup.DaChip8
+﻿namespace DanTup.DaChip8
 {
-	public partial class Screen : Form
+#if NOTHING
+	public class Main
 	{
 		readonly Chip8 chip8;
 		readonly Bitmap screen;
@@ -21,10 +13,8 @@ namespace DanTup.DaChip8
 		readonly TimeSpan targetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 1000);
 		TimeSpan lastTime;
 
-		public Screen()
+		public Main()
 		{
-			InitializeComponent();
-
 			screen = new Bitmap(64, 32);
 			pbScreen.Image = screen;
 
@@ -104,4 +94,5 @@ namespace DanTup.DaChip8
 			pbScreen.Refresh();
 		}
 	}
+#endif
 }
