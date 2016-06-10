@@ -37,36 +37,36 @@ namespace DanTup.DaChip8JS
 		{
 		}
 
-		static Dictionary<Keys, byte> keyMapping = new Dictionary<Keys, byte>
+		static Dictionary<KeyCode, byte> keyMapping = new Dictionary<KeyCode, byte>
 		{
-			{ Keys.D1, 0x1 },
-			{ Keys.D2, 0x2 },
-			{ Keys.D3, 0x3 },
-			{ Keys.D4, 0xC },
-			{ Keys.Q, 0x4 },
-			{ Keys.W, 0x5 },
-			{ Keys.E, 0x6 },
-			{ Keys.R, 0xD },
-			{ Keys.A, 0x7 },
-			{ Keys.S, 0x8 },
-			{ Keys.D, 0x9 },
-			{ Keys.F, 0xE },
-			{ Keys.Z, 0xA },
-			{ Keys.X, 0x0 },
-			{ Keys.C, 0xB },
-			{ Keys.V, 0xF },
+			{ KeyCode.D1, 0x1 },
+			{ KeyCode.D2, 0x2 },
+			{ KeyCode.D3, 0x3 },
+			{ KeyCode.D4, 0xC },
+			{ KeyCode.Q, 0x4 },
+			{ KeyCode.W, 0x5 },
+			{ KeyCode.E, 0x6 },
+			{ KeyCode.R, 0xD },
+			{ KeyCode.A, 0x7 },
+			{ KeyCode.S, 0x8 },
+			{ KeyCode.D, 0x9 },
+			{ KeyCode.F, 0xE },
+			{ KeyCode.Z, 0xA },
+			{ KeyCode.X, 0x0 },
+			{ KeyCode.C, 0xB },
+			{ KeyCode.V, 0xF },
 		};
 
-		static void SetKeyDown(object sender, KeyEventArgs e)
+		static void SetKeyDown(KeyboardEvent e)
 		{
-			if (keyMapping.ContainsKey(e.KeyCode))
-				chip8.KeyDown(keyMapping[e.KeyCode]);
+			if (keyMapping.ContainsKey((KeyCode)e.KeyCode))
+				chip8.KeyDown(keyMapping[(KeyCode)e.KeyCode]);
 		}
 
-		static void SetKeyUp(object sender, KeyEventArgs e)
+		static void SetKeyUp(KeyboardEvent e)
 		{
-			if (keyMapping.ContainsKey(e.KeyCode))
-				chip8.KeyUp(keyMapping[e.KeyCode]);
+			if (keyMapping.ContainsKey((KeyCode)e.KeyCode))
+				chip8.KeyUp(keyMapping[(KeyCode)e.KeyCode]);
 		}
 
 		static void StartGameLoop()

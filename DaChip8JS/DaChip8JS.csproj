@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Chip8.cs" />
     <Compile Include="Font.cs" />
+    <Compile Include="KeyCode.cs" />
     <Compile Include="OpCodeData.cs" />
     <Compile Include="Main.cs" />
   </ItemGroup>
