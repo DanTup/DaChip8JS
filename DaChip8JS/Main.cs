@@ -2,39 +2,42 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Bridge.Html5;
 
 namespace DanTup.DaChip8JS
 {
-	public class Main
+	public static class Main
 	{
-		readonly Chip8 chip8;
-		readonly Bitmap screen;
-		readonly string ROM = "../../../ROMs/Chip-8 Pack/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].ch8";
+		static Chip8 chip8;
+		const string ROM = "../../../ROMs/Chip-8 Pack/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].ch8";
 
 		// For timing..
-		readonly Stopwatch stopWatch = Stopwatch.StartNew();
-		readonly TimeSpan targetElapsedTime60Hz = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60);
-		readonly TimeSpan targetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 1000);
-		TimeSpan lastTime;
+		static readonly Stopwatch stopWatch = Stopwatch.StartNew();
+		static readonly TimeSpan targetElapsedTime60Hz = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 60);
+		static readonly TimeSpan targetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 1000);
+		static TimeSpan lastTime;
 
-		public Main()
+		[Ready]
+		public static void OnReady()
 		{
-			screen = new Bitmap(64, 32);
-			pbScreen.Image = screen;
+			chip8 = new Chip8(Draw, Beep);
+			//chip8.LoadProgram(File.ReadAllBytes(ROM));
 
-			chip8 = new Chip8(screen);
-			chip8.LoadProgram(File.ReadAllBytes(ROM));
+			Document.OnKeyUp += SetKeyDown;
+			Document.OnKeyDown += SetKeyUp;
 
-			KeyDown += SetKeyDown;
-			KeyUp += SetKeyUp;
-		}
-
-		protected override void OnLoad(EventArgs e)
-		{
 			StartGameLoop();
 		}
 
-		Dictionary<Keys, byte> keyMapping = new Dictionary<Keys, byte>
+		public static void Draw(bool[,] buffer)
+		{
+		}
+
+		public static void Beep(int milliseconds)
+		{
+		}
+
+		static Dictionary<Keys, byte> keyMapping = new Dictionary<Keys, byte>
 		{
 			{ Keys.D1, 0x1 },
 			{ Keys.D2, 0x2 },
@@ -54,24 +57,24 @@ namespace DanTup.DaChip8JS
 			{ Keys.V, 0xF },
 		};
 
-		void SetKeyDown(object sender, KeyEventArgs e)
+		static void SetKeyDown(object sender, KeyEventArgs e)
 		{
 			if (keyMapping.ContainsKey(e.KeyCode))
 				chip8.KeyDown(keyMapping[e.KeyCode]);
 		}
 
-		void SetKeyUp(object sender, KeyEventArgs e)
+		static void SetKeyUp(object sender, KeyEventArgs e)
 		{
 			if (keyMapping.ContainsKey(e.KeyCode))
 				chip8.KeyUp(keyMapping[e.KeyCode]);
 		}
 
-		void StartGameLoop()
+		static void StartGameLoop()
 		{
 			Task.Run(GameLoop);
 		}
 
-		Task GameLoop()
+		static Task GameLoop()
 		{
 			while (true)
 			{
@@ -91,8 +94,8 @@ namespace DanTup.DaChip8JS
 			}
 		}
 
-		void Tick() => chip8.Tick();
-		void Tick60Hz()
+		static void Tick() => chip8.Tick();
+		static void Tick60Hz()
 		{
 			chip8.Tick60Hz();
 			pbScreen.Refresh();
