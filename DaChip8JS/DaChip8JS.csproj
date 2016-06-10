@@ -47,19 +47,7 @@
     <Compile Include="Chip8.cs" />
     <Compile Include="Font.cs" />
     <Compile Include="OpCodeData.cs" />
-    <Compile Include="PictureBoxWithInterpolationMode.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Screen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Screen.Designer.cs">
-      <DependentUpon>Screen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="Screen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
