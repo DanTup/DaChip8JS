@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using Bridge.Html5;
 
 namespace DanTup.DaChip8JS
@@ -26,14 +26,20 @@ namespace DanTup.DaChip8JS
 		static void BeginLoadRom(string rom)
 		{
 			var req = new XMLHttpRequest();
+			req.ResponseType = XMLHttpRequestResponseType.ArrayBuffer;
 			req.Open("GET", rom);
-			req.OnLoad = e => EndLoadRom(ConvertToByteArray(req.ResponseText));
+			req.OnLoad = e => EndLoadRom(ConvertToByteArray(req.Response as ArrayBuffer));
 			req.Send();
 		}
 
-		static byte[] ConvertToByteArray(string data)
+		static byte[] ConvertToByteArray(ArrayBuffer buffer)
 		{
-			return data.ToCharArray().Select(c => (byte)c).ToArray();
+			var data = new Uint8Array(buffer);
+			var dataBytes = new byte[data.Length];
+			for (var i = 0; i < data.Length; i++)
+				dataBytes[i] = data[i];
+
+			return dataBytes;
 		}
 
 		static void EndLoadRom(byte[] data)
