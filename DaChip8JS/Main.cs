@@ -31,8 +31,8 @@ namespace DanTup.DaChip8JS
 			chip8 = new Chip8(Draw, Beep);
 
 			// Pass keypresses over to the interpreter.
-			Document.OnKeyUp += SetKeyDown;
-			Document.OnKeyDown += SetKeyUp;
+			Document.OnKeyDown += SetKeyDown;
+			Document.OnKeyUp += SetKeyUp;
 
 			// Kick off async loading of ROM.
 			BeginLoadRom(ROM);
