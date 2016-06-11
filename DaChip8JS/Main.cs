@@ -28,18 +28,13 @@ namespace DanTup.DaChip8JS
 			var req = new XMLHttpRequest();
 			req.ResponseType = XMLHttpRequestResponseType.ArrayBuffer;
 			req.Open("GET", rom);
-			req.OnLoad = e => EndLoadRom(ConvertToByteArray(req.Response as ArrayBuffer));
+			req.OnLoad = e => EndLoadRom(GetResponseAsByteArray(req));
 			req.Send();
 		}
 
-		static byte[] ConvertToByteArray(ArrayBuffer buffer)
+		static byte[] GetResponseAsByteArray(XMLHttpRequest req)
 		{
-			var data = new Uint8Array(buffer);
-			var dataBytes = new byte[data.Length];
-			for (var i = 0; i < data.Length; i++)
-				dataBytes[i] = data[i];
-
-			return dataBytes;
+			return new Uint8Array(req.Response as ArrayBuffer).As<byte[]>();
 		}
 
 		static void EndLoadRom(byte[] data)
