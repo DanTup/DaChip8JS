@@ -9,6 +9,7 @@ namespace DanTup.DaChip8JS
 		static Chip8 chip8;
 		const string ROM = "ROMs/Chip-8 Pack/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].ch8";
 
+		static readonly int minimumSetIntervalResolution = 4; // HTML5 has minimum resolution of 4ms http://developer.mozilla.org/en/DOM/window.setTimeout#Minimum_delay_and_timeout_nesting
 		static readonly int targetElapsedTime60Hz = (int)(1000f / 60); // 60 tickets per second
 		static readonly int targetElapsedTime = (int)(1000f / 500); // 500 ticks per second
 
@@ -116,15 +117,19 @@ namespace DanTup.DaChip8JS
 		static void StartGameLoop()
 		{
 			var a = Window.Performance.Now();
-			Window.SetInterval(Tick, targetElapsedTime);
+			Window.SetInterval(Tick, minimumSetIntervalResolution);
 			Window.SetInterval(chip8.Tick60Hz, targetElapsedTime60Hz);
 		}
 
 		static void Tick()
 		{
-			cycles++;
-			debug.TextContent = string.Format("Target cycle time {0}ms, average {1}ms", targetElapsedTime, (Window.Performance.Now() - gameStartTime) / cycles);
-			chip8.Tick();
+			var numTicksToExecute = minimumSetIntervalResolution / targetElapsedTime;
+			for (var i = 0; i < numTicksToExecute; i++)
+			{
+				cycles++;
+				debug.TextContent = string.Format("Target cycle time {0}ms, average {1}ms", targetElapsedTime, (Window.Performance.Now() - gameStartTime) / cycles);
+				chip8.Tick();
+			}
 		}
 	}
 }
