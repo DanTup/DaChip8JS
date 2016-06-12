@@ -19,7 +19,7 @@ namespace DanTup.DaChip8JS
 
 		static HTMLCanvasElement screen;
 		static CanvasRenderingContext2D screenContext;
-		static ImageData darkPixel, lightPixel;
+		static ImageData lightPixel;
 
 		[Ready]
 		public static void OnReady()
@@ -29,10 +29,9 @@ namespace DanTup.DaChip8JS
 			// Set up canvas rendering.
 			screen = Document.GetElementById<HTMLCanvasElement>("screen");
 			screenContext = screen.GetContext(CanvasTypes.CanvasContext2DType.CanvasRenderingContext2D);
-			darkPixel = screenContext.CreateImageData(1, 1);
 			lightPixel = screenContext.CreateImageData(1, 1);
 			lightPixel.Data[1] = 0x64; // Set green part (#006400)
-			darkPixel.Data[3] = lightPixel.Data[3] = 255; // Alpha
+			lightPixel.Data[3] = 255; // Alpha
 
 			// Create the interpreter.
 			chip8 = new Chip8(Draw, Beep);
@@ -68,9 +67,14 @@ namespace DanTup.DaChip8JS
 
 		static void Draw(bool[,] buffer)
 		{
-			for (var x = 0; x < buffer.GetLength(0); x++)
-				for (var y = 0; y < buffer.GetLength(1); y++)
-					screenContext.PutImageData(buffer[x, y] ? lightPixel : darkPixel, x, y);
+			var width = buffer.GetLength(0);
+			var height = buffer.GetLength(1);
+			// For performance, we only draw lit pixels so we need to clear the screen first.
+			screenContext.ClearRect(0, 0, width, height);
+			for (var x = 0; x < width; x++)
+				for (var y = 0; y < height; y++)
+					if (buffer[x, y])
+						screenContext.PutImageData(lightPixel, x, y);
 		}
 
 		static void Beep(int milliseconds)
