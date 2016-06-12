@@ -12,6 +12,11 @@ namespace DanTup.DaChip8JS
 		static readonly int targetElapsedTime60Hz = (int)(1000f / 60); // 60 tickets per second
 		static readonly int targetElapsedTime = (int)(1000f / 500); // 500 ticks per second
 
+		// Debug stuff.
+		static int cycles = 0;
+		static int gameStartTime = 0;
+		static HTMLDivElement debug;
+
 		static HTMLCanvasElement screen;
 		static CanvasRenderingContext2D screenContext;
 		static ImageData darkPixel, lightPixel;
@@ -19,6 +24,8 @@ namespace DanTup.DaChip8JS
 		[Ready]
 		public static void OnReady()
 		{
+			debug = Document.GetElementById<HTMLDivElement>("debug");
+
 			// Set up canvas rendering.
 			screen = Document.GetElementById<HTMLCanvasElement>("screen");
 			screenContext = screen.GetContext(CanvasTypes.CanvasContext2DType.CanvasRenderingContext2D);
@@ -104,8 +111,16 @@ namespace DanTup.DaChip8JS
 
 		static void StartGameLoop()
 		{
-			Window.SetInterval(chip8.Tick, targetElapsedTime);
+			var a = Window.Performance.Now();
+			Window.SetInterval(Tick, targetElapsedTime);
 			Window.SetInterval(chip8.Tick60Hz, targetElapsedTime60Hz);
+		}
+
+		static void Tick()
+		{
+			cycles++;
+			debug.TextContent = string.Format("Target cycle time {0}ms, average {1}ms", targetElapsedTime, (Window.Performance.Now() - gameStartTime) / cycles);
+			chip8.Tick();
 		}
 	}
 }
