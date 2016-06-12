@@ -7,7 +7,7 @@ namespace DanTup.DaChip8JS
 	public static class Main
 	{
 		static Chip8 chip8;
-		const string ROM = "ROMs/Chip-8 Pack/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].ch8";
+		const string ROM = "/ROMs/Chip-8 Pack/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].ch8";
 
 		static readonly int minimumSetIntervalResolution = 4; // HTML5 has minimum resolution of 4ms http://developer.mozilla.org/en/DOM/window.setTimeout#Minimum_delay_and_timeout_nesting
 		static readonly int targetElapsedTime60Hz = (int)(1000f / 60); // 60 tickets per second
