@@ -24,6 +24,7 @@ namespace DanTup.DaChip8JS
 
 		// Beep (we cheat with this and just play once, regardless of duration).
 		static HTMLAudioElement beep;
+		static bool beepEnabled = false;
 
 		[Ready]
 		public static void OnReady()
@@ -46,6 +47,10 @@ namespace DanTup.DaChip8JS
 			lightPixel = screenContext.CreateImageData(1, 1);
 			lightPixel.Data[1] = 0x64; // Set green part (#006400)
 			lightPixel.Data[3] = 255; // Alpha
+
+			// Set up touch events for canvas so we can play on mobile.
+			screen.OnTouchStart += SetTouchDown;
+			screen.OnTouchEnd += SetTouchUp;
 
 			// Set up audio.
 			// http://stackoverflow.com/a/23395136/25124
@@ -97,8 +102,6 @@ namespace DanTup.DaChip8JS
 
 		static void Beep(int milliseconds)
 		{
-			beep.Pause();
-			beep.CurrentTime = 0;
 			beep.Play();
 		}
 
@@ -134,6 +137,30 @@ namespace DanTup.DaChip8JS
 		{
 			if (keyMapping.ContainsKey((KeyCode)e.KeyCode))
 				chip8.KeyUp(keyMapping[(KeyCode)e.KeyCode]);
+		}
+
+		static void SetTouchDown(TouchEvent<HTMLCanvasElement> e)
+		{
+			// HACK: We can't play sound unless first done with a user-initiated event
+			// So on the first tap, play the sound silently, then set it up normally.
+			if (!beepEnabled)
+			{
+				beep.Play();
+				beepEnabled = true;
+			}
+
+			if (e.Touches[0].ClientX < 320)
+				chip8.KeyDown(keyMapping[KeyCode.LeftCursor]);
+			else
+				chip8.KeyDown(keyMapping[KeyCode.RightCursor]);
+			e.PreventDefault();
+		}
+
+		static void SetTouchUp(TouchEvent<HTMLCanvasElement> e)
+		{
+			chip8.KeyUp(keyMapping[KeyCode.LeftCursor]);
+			chip8.KeyUp(keyMapping[KeyCode.RightCursor]);
+			e.PreventDefault();
 		}
 
 		static void StartGameLoop()
