@@ -24,7 +24,6 @@ namespace DanTup.DaChip8JS
 
 		// Beep (we cheat with this and just play once, regardless of duration).
 		static HTMLAudioElement beep;
-		static bool beepEnabled = false;
 
 		[Ready]
 		public static void OnReady()
@@ -32,7 +31,7 @@ namespace DanTup.DaChip8JS
 			// If we're hosted in a page with a start button, hook it up. Otherwise, start.
 			var startButton = Document.GetElementById<HTMLButtonElement>("start-dachip8js-game");
 			if (startButton != null)
-				startButton.OnClick = delegate (MouseEvent<HTMLButtonElement> e) { startButton.Style.Display = Display.None; StartGame(); };
+				startButton.OnClick = delegate (MouseEvent<HTMLButtonElement> e) { startButton.Style.Display = Display.None; beep.Play(); StartGame(); };
 			else
 				StartGame();
 		}
@@ -141,14 +140,6 @@ namespace DanTup.DaChip8JS
 
 		static void SetTouchDown(TouchEvent<HTMLCanvasElement> e)
 		{
-			// HACK: We can't play sound unless first done with a user-initiated event
-			// So on the first tap, play the sound silently, then set it up normally.
-			if (!beepEnabled)
-			{
-				beep.Play();
-				beepEnabled = true;
-			}
-
 			if (e.Touches[0].ClientX < 320)
 				chip8.KeyDown(keyMapping[KeyCode.LeftCursor]);
 			else
@@ -165,7 +156,6 @@ namespace DanTup.DaChip8JS
 
 		static void StartGameLoop()
 		{
-			var a = Window.Performance.Now();
 			Window.SetInterval(Tick, minimumSetIntervalResolution);
 			Window.SetInterval(chip8.Tick60Hz, targetElapsedTime60Hz);
 		}
