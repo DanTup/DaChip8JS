@@ -28,6 +28,16 @@ namespace DanTup.DaChip8JS
 		[Ready]
 		public static void OnReady()
 		{
+			// If we're hosted in a page with a start button, hook it up. Otherwise, start.
+			var startButton = Document.GetElementById<HTMLButtonElement>("start-dachip8js-game");
+			if (startButton != null)
+				startButton.OnClick = delegate (MouseEvent<HTMLButtonElement> e) { startButton.Style.Display = Display.None; StartGame(); };
+			else
+				StartGame();
+		}
+
+		public static void StartGame()
+		{
 			debug = Document.GetElementById<HTMLDivElement>("debug");
 
 			// Set up canvas rendering.

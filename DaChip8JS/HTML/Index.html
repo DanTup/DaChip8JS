@@ -23,7 +23,11 @@
 
 	<p>The ROM loaded below is <em>Breakout (Brix hack) [David Winter, 1997]</em> from the <a href="http://www.chip8.com/?page=109">Chip-8 Pack</a>. You can use the cursor keys to move the paddle.</p>
 
-	<canvas id="screen" width="64" height="32" style="min-width: 640px; min-height: 320px; image-rendering: pixelated; background-color: #000;"></canvas>
+	
+	<div style="position: relative;">
+		<button id="start-dachip8js-game" style="position: absolute; width: 640px; height: 320px; background-color: #000; font-size: 30px; color: #fff;">Click to Play</button>
+		<canvas id="screen" width="64" height="32" style="min-width: 640px; min-height: 320px; image-rendering: pixelated; background-color: #000;"></canvas>
+	</div>
 
 	<div id="debug" style="display: none;"></div>
 
