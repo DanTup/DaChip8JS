@@ -1,6 +1,8 @@
 # DaChip8JS [![Build status](https://ci.appveyor.com/api/projects/status/github/DanTup/DaChip8JS?svg=true)](https://ci.appveyor.com/project/DanTup/dachip8js)
 
-An attempt to make [my C# CHIP-8 interpreter](https://github.com/DanTup/DaChip8) run in the browser using [Bridge.NET](http://bridge.net/).
+DaChip8JS is my [C# CHIP-8 interpreter](https://github.com/DanTup/DaChip8) running in the browser using Bridge.NET.
+
+> **[Read the blog post (which includes an embedded live playable demo!) here](http://blog.dantup.com/2016/06/dachip8js-my-csharp-chip8-interpreter-running-in-the-browser/)**.
 
 ## ROMs
 
