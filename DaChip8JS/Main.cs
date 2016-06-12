@@ -110,6 +110,8 @@ namespace DanTup.DaChip8JS
 			{ KeyCode.X, 0x0 },
 			{ KeyCode.C, 0xB },
 			{ KeyCode.V, 0xF },
+			{ KeyCode.LeftCursor, 0x4 },
+			{ KeyCode.RightCursor, 0x6 },
 		};
 
 		static void SetKeyDown(KeyboardEvent e)

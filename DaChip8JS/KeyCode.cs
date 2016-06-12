@@ -18,5 +18,7 @@
 		X = 88,
 		C = 67,
 		V = 86,
+		LeftCursor = 37,
+		RightCursor = 39,
 	}
 }
