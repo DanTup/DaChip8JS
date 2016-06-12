@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace DanTup.DaChip8JS
@@ -116,7 +115,7 @@ namespace DanTup.DaChip8JS
 			// Read the two bytes of OpCode (big endian).
 			var opCode = (ushort)(RAM[PC++] << 8 | RAM[PC++]);
 
-			Debug.WriteLine((PC - 2).ToString("X4") + ": " + opCode.ToString("X4"));
+			//Debug.WriteLine((PC - 2).ToString("X4") + ": " + opCode.ToString("X4"));
 
 			// Split data into the possible formats the instruction might need.
 			// https://en.wikipedia.org/wiki/CHIP-8#Opcode_table
@@ -319,7 +318,7 @@ namespace DanTup.DaChip8JS
 		{
 			var startX = V[data.X];
 			var startY = V[data.Y];
-			Debug.WriteLine(string.Format("Drawing {0}-line sprite from {1} at {2}, {3}", data.N, I, startX, startY));
+			//Debug.WriteLine(string.Format("Drawing {0}-line sprite from {1} at {2}, {3}", data.N, I, startX, startY));
 
 			V[0xF] = 0;
 			for (var i = 0; i < data.N; i++)
@@ -409,7 +408,7 @@ namespace DanTup.DaChip8JS
 		/// </summary>
 		void SetIForChar(OpCodeData data)
 		{
-			Debug.WriteLine(string.Format("Setting I to {0} to render a {1}", V[data.X] * 5, V[data.X].ToString("X")));
+			//Debug.WriteLine(string.Format("Setting I to {0} to render a {1}", V[data.X] * 5, V[data.X].ToString("X")));
 			I = (ushort)(V[data.X] * 5); // 0 is at 0x0, 1 is at 0x5, ...
 		}
 
